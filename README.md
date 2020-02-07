@@ -2,6 +2,13 @@
 Script for creating MySQL database containing Lahmans Baseball Data
 This data is used in our soon-to-be-released Python book.
 
+If you just want to create the MySQL database, download lahman-mysql-dump.sql and import it into MySQL using MySQL Workbench:
+1. **Server > Data Import**
+1. Select **Import from Self-Contained File**
+1. Pick any **Default Target Schema**. It will be ignored, as the file creates a new one.
+1. Click **Start Import** button.
+
+
 ## General Notes
 1. We added leagues and divisions tables to stored data related to the CSV data's pseudo-foreign keys: lgID and divID.
 1. We added autoincrementing ID fields to all tables that had obvious single-field primary key.
