@@ -1,0 +1,4 @@
+.venv/
+work/
+csvs/
+log.txt
