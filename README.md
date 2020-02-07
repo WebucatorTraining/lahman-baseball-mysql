@@ -22,7 +22,21 @@ This data is used in our soon-to-be-released Python book.
 1. WSN - In AllstarFull.csv, teamID "WSN" exists. That should be "WAS". In Teams.csv, WSN is value for teamIDlahman45 and teamIDretro, but not for teamID. We changed this value to "WAS" in the allstarfull table of the MySQL database.
                     
 # Python Script
-1. You will need to change the user and password variables (lines 56-57) to your MySQL login.
+1. This is only relevant if you're going to try to recreate the MySQL script. If you do that and have suggestions, please create an issue.
+1. You will need the following files:
+  1. lahman_bbdb_mysql_from_csvs_2019.py
+  1. create-lahman-mysql.sql
+  1. requirements.txt
+  1. A csvs directory containing all the CSV files from https://github.com/chadwickbureau/baseballdatabank/tree/master/core.
+1. You will need to change the user and password variables (lines 56-57 of lahman_bbdb_mysql_from_csvs_2019.py) to your MySQL login.
+1. We recommend you create a virtual environment:
+  1. Create a directory called ".venv"
+  1. cd into that directory
+  1. Run: `python -m venv virtual-lahman`
+  1. Run one of the following:
+    * **Windows:** virtual-lahman/Scripts/activate
+    * **Mac/Linux:** virtual-lahman/bin/activate
+  1. pip install -r requirements.txt
 1. The migration took about 20 minutes on my computer.
 1. The larger CSVs will cause DtypeWarnings, but these don't seem to have any negative effect.
 1. We could definitely do a better job with our error handling. We got lazy at the end.
