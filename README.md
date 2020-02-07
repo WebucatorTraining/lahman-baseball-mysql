@@ -18,8 +18,8 @@ This data is used in our soon-to-be-released Python book.
 1. PlayerID 'thompan01' appears in fieldingOF.csv, but not in People.csv. His record does not get included in the fieldingof table of the MySQL database.
 
 ## Data Changed
-* MLN - In AllstarFull.csv, teamID "MLN" exists. That should be "ML1". In Teams.csv, MLN is value for teamIDBR, teamIDlahman45, and teamIDretro, but not for teamID. We changed this value to "ML1" in the allstarfull table of the MySQL database.
-* WSN - In AllstarFull.csv, teamID "WSN" exists. That should be "WAS". In Teams.csv, WSN is value for teamIDlahman45 and teamIDretro, but not for teamID. We changed this value to "WAS" in the allstarfull table of the MySQL database.
+1. MLN - In AllstarFull.csv, teamID "MLN" exists. That should be "ML1". In Teams.csv, MLN is value for teamIDBR, teamIDlahman45, and teamIDretro, but not for teamID. We changed this value to "ML1" in the allstarfull table of the MySQL database.
+1. WSN - In AllstarFull.csv, teamID "WSN" exists. That should be "WAS". In Teams.csv, WSN is value for teamIDlahman45 and teamIDretro, but not for teamID. We changed this value to "WAS" in the allstarfull table of the MySQL database.
                     
 # Python Script
 1. The migration took about 20 minutes on my computer.
