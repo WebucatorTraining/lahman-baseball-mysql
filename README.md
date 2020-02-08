@@ -11,13 +11,13 @@ If you just want to create the MySQL database, download *lahman-mysql-dump.sql* 
 
 
 ## General Notes
-1. We added leagues and divisions tables to stored data related to the CSV data's pseudo-foreign keys: lgID and divID.
-1. We added autoincrementing ID fields to all tables that had obvious single-field primary key.
-1. We added foreign keys to tables references the added ID primary keys. All of these foreign keys contain an underscore: div_id, team_id, team_IDwinner, teamIDloser, lg_IDwinner, lg_IDloser, parkID.
-1. We change the field name 'rank' to 'teamRank', as 'rank' is a reserved word in MySQL 8+.
+1. We added leagues and divisions tables to stored data related to the CSV data's pseudo-foreign keys: `lgID` and `divID`.
+1. We added autoincrementing `ID` fields to all tables that had obvious single-field primary key.
+1. We added foreign keys to tables references the added `ID` primary keys. All of these foreign keys contain an underscore: `div_id`, `team_id`, `team_IDwinner`, `team_IDloser`, `lg_IDwinner`, `lg_IDloser`, `park_ID`.
+1. We change the field name `rank` to `teamRank`, as 'rank' is a reserved word in MySQL 8+.
 1. We removed all periods from field names. This affects fields in *Parks.csv* and *HomeGames.csv*.
-1. We assumed 'NA' should be treated as NULL for all fields except lgID, where it relates to 'National Association'
-1. We converted the inf integer value to NULL for lack of a better idea.
+1. We assumed 'NA' should be treated as `NULL` for all fields except `lgID`, where it relates to 'National Association'
+1. We converted the `inf` integer value to `NULL` for lack of a better idea.
 
 ## Data Lost
 1. In `allstarfull`, the row with this data: `['bailean01', None, None, None, 'OAK', 1512, 'AL', 0, None]` has no `yearID`. Because of this, we made `yearID` optional in the `allstarfull` table.
