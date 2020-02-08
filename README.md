@@ -28,7 +28,7 @@ If you just want to create the MySQL database, download lahman-mysql-dump.sql an
 1. MLN - In AllstarFull.csv, teamID "MLN" exists. That should be "ML1". In Teams.csv, MLN is value for teamIDBR, teamIDlahman45, and teamIDretro, but not for teamID. We changed this value to "ML1" in the allstarfull table of the MySQL database.
 1. WSN - In AllstarFull.csv, teamID "WSN" exists. That should be "WAS". In Teams.csv, WSN is value for teamIDlahman45 and teamIDretro, but not for teamID. We changed this value to "WAS" in the allstarfull table of the MySQL database.
                     
-# Python Script
+## Python Script
 1. This is only relevant if you're going to try to recreate the MySQL script. If you do that and have suggestions, please create an issue.
 1. You will need the following files:
     1. lahman_bbdb_mysql_from_csvs_2019.py
@@ -47,3 +47,13 @@ If you just want to create the MySQL database, download lahman-mysql-dump.sql an
 1. The migration took about 20 minutes on my computer.
 1. The larger CSVs will cause DtypeWarnings, but these don't seem to have any negative effect.
 1. We could definitely do a better job with our error handling. We got lazy at the end.
+
+## Creating the DUMP File
+1. Open MySQL Workbench
+1. Select **Server > Data Export**
+1. Check lahmansbaseballdb
+1. **Select Export to Self-Contained File**
+1. Check **Create Dump in a Single Transaction** and **Include Create Schema**
+1. Click **Start Export**. This will create a .sql file.
+1. Copy all the `DROP TABLE` statements from lahman_bbdb_mysql_from_csvs_2019.py and paste them at the top of the dump file after the **USE `lahmansbaseballdb`;** line.
+1. The file should be ready to as an import file.
