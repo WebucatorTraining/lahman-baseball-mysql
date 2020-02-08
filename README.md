@@ -55,5 +55,5 @@ If you just want to create the MySQL database, download lahman-mysql-dump.sql an
 1. **Select Export to Self-Contained File**
 1. Check **Create Dump in a Single Transaction** and **Include Create Schema**
 1. Click **Start Export**. This will create a .sql file.
-1. Copy all the `DROP TABLE` statements from lahman_bbdb_mysql_from_csvs_2019.py and paste them at the top of the dump file after the **USE `lahmansbaseballdb`;** line.
+1. Copy all the `DROP TABLE` statements from lahman_bbdb_mysql_from_csvs_2019.py and paste them at the top of the dump file after the `USE \`lahmansbaseballdb\`;` line.
 1. The file should be ready to as an import file.
