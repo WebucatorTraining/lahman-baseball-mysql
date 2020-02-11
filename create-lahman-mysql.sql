@@ -76,6 +76,7 @@ CREATE TABLE divisions (
   division varchar(50) NOT NULL,
   active char NOT NULL,
   PRIMARY KEY (ID),
+  UNIQUE KEY (divID,lgID),
   FOREIGN KEY (lgID) REFERENCES leagues(lgID)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 

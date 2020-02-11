@@ -54,7 +54,7 @@ import time
 
 # Change to your login info
 user = 'root'
-password = 'your_password'
+password = '3C0ll@ge'
 
 db_create_script = 'create-lahman-mysql.sql'
 
@@ -75,8 +75,7 @@ def db_connect():
     connection = mysql.connector.connect(
         host='127.0.0.1',
         user=user,
-        password=password,
-        buffered=True
+        password=password
     )
 
     return connection
@@ -146,8 +145,22 @@ def get_columns(csv_cols, table):
 
     return cols
 
-def get_values(orig_values, csv_cols, table, cursor):
+def get_values(orig_values, csv_cols, table, connection):
     values = []
+
+    if table == 'allstarfull':
+        year_id = orig_values[list(csv_cols).index('yearID')]
+        team_id = orig_values[list(csv_cols).index('teamID')]
+
+        try:
+            if 1970 <= int(year_id) <= 1997 and team_id == 'MIL':
+                orig_values[list(csv_cols).index('teamID')] = 'ML4' # See ReadMe
+            if 1997 <= int(year_id) <= 2004 and team_id == 'LAA':
+                orig_values[list(csv_cols).index('teamID')] = 'ANA' # See ReadMe
+        except Exception as e:
+            print(e, orig_values, csv_cols, table)
+            print('Continue executing, but maybe should not.')
+
     for i in range(len(orig_values)):
         val = orig_values[i]
         col = csv_cols[i]
@@ -160,34 +173,74 @@ def get_values(orig_values, csv_cols, table, cursor):
             if not len(val): # If col exists, but is empty
                 values.append(None)
             else:
+                query = '''SELECT ID FROM teams 
+                           WHERE teamID = %s AND yearID = %s AND lgID = %s;'''
+                try:
+                    try:
+                        year_id = orig_values[list(csv_cols).index('yearID')]
+                    except ValueError: # yearID not in csv_cols
+                        year_id = orig_values[list(csv_cols).index('year.key')]
+
+                    try:
+                        lg_id = orig_values[list(csv_cols).index('lgID')]
+                    except ValueError: # lgID not in csv_cols
+                        lg_id = orig_values[list(csv_cols).index('league.key')]
+                except:
+                    print(query, list(csv_cols), csv_cols, orig_values, sep='\n', end='\n\--------------n')
+                    raise
                 val = 'ML1' if val == 'MLN' else val # See *MLN in Readme file
                 val = 'WAS' if val == 'WSN' else val # See *WSN in Readme file
-                query = 'SELECT ID FROM teams WHERE teamID = %s;'
+                val = 'ML4' if (val == "MIL" and (1970 <= int(year_id) <= 1997)) else val
+                val = 'ANA' if (val == "LAA" and (1997 <= int(year_id) <= 2004)) else val
+                vals = [val, year_id, lg_id]
                 fk = True
         elif col == 'parkkey' and len(val) and table != 'parks':
             if not len(val): # If col exists, but is empty
                 values.append(None)
             else:
                 query = 'SELECT ID FROM parks WHERE parkkey = %s;'
+                vals = [val]
                 fk = True
         elif col == 'divID':
             if not len(val): # If col exists, but is empty
                 values.append(None)
             else:
-                query = 'SELECT ID FROM divisions WHERE divID = %s;'
+                query = '''SELECT ID FROM divisions
+                           WHERE divID = %s AND lgID = %s;'''
+                try:
+                    lg_id = orig_values[list(csv_cols).index('lgID')]
+                except:
+                    print(query, list(csv_cols), csv_cols, orig_values, sep='\n', end='\n\--------------n')
+                vals = [val, lg_id]
                 fk = True
 
         if fk:
             try:
-                cursor.execute(query, [val])
-                result = cursor.fetchone()
-                values.append(result['ID'])
+                cursor_select = connection.cursor()
+                cursor_select.execute(query, vals)
+                result = cursor_select.fetchone()
+                if not result:
+                    # No matching record
+                    msg = f'''Tried to get ID to match {col}, but
+                        * No matching record for {vals} in {table}.
+                        * {orig_values}
+                        * {csv_cols}'''
+                    print(msg)
+                    log(msg)
+                    return None
+                else:
+                    values.append(result[0])
+                cursor_select.close()
             except TypeError:
-                print(query, val)
+                print(query, vals)
+                raise
+            except:
+                print(query, vals)
+                raise
 
     return values
 
-def insert_records(table, cursor):
+def insert_records(table, cursor, connection):
     """Inserts records in CSV into matching MySQL table."""
     csv = f'csvs/{table}.csv'
     
@@ -202,13 +255,17 @@ def insert_records(table, cursor):
 
     for df_row in df.iterrows():
         row = df_row[1]
-        values = get_values(row.to_list(), df.columns, table, cursor)
-
+        values = get_values(row.to_list(), df.columns, table, connection)
+        if not values: # Something went wrong in get_values()
+            continue
         try:
             cursor.execute(insert, values)
         except mysql.connector.errors.IntegrityError as e:
             log(f'Not inserting {values} into {table}.')
             log('\t * ' + str(e))
+        except:
+            print(insert, values, sep='\n', end='\n----------\n')
+            raise
 
 def main():
     start_time = time.perf_counter()
@@ -216,7 +273,7 @@ def main():
     log(f'Start Time: {start_time}')
 
     connection = db_connect()
-    cursor = connection.cursor(dictionary=True)
+    cursor = connection.cursor()
 
     print('Creating database.')
     start_time_create_db = time.perf_counter()
@@ -227,16 +284,19 @@ def main():
     log(f'Time to create database: {time_create_db} seconds')
 
     cursor.execute('use lahmansbaseballdb;')
+    cursor.close()
 
     tables = get_tables()
     for table in tables:
+        cursor = connection.cursor(prepared=True)
         start_time_pop_table = time.perf_counter()
         print(f'Populating {table}.')
-        insert_records(table, cursor)
+        insert_records(table, cursor, connection)
         end_time_pop_table = time.perf_counter()
         time_pop_table = end_time_pop_table - start_time_pop_table
         print(f'Finished populating {table} in {time_pop_table} seconds.')
         log(f'Time to populate {table}: {time_pop_table} seconds')
+        cursor.close()
 
     
     connection.commit()
