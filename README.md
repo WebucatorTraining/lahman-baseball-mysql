@@ -59,37 +59,37 @@ If you just want to create the MySQL database, download *lahman-mysql-dump.sql* 
 1. Check **Create Dump in a Single Transaction** and **Include Create Schema**
 1. Click **Start Export**. This will create a .sql file.
 1. Copy all the `DROP TABLE` statements below and paste them at the top of the dump file after the `USE lahmansbaseballdb;` line.
-
-
-    DROP TABLE IF EXISTS seriespost;
-    DROP TABLE IF EXISTS salaries;
-    DROP TABLE IF EXISTS pitchingpost;
-    DROP TABLE IF EXISTS pitching;
-    DROP TABLE IF EXISTS managershalf;
-    DROP TABLE IF EXISTS managers;
-    DROP TABLE IF EXISTS homegames;
-    DROP TABLE IF EXISTS parks;
-    DROP TABLE IF EXISTS halloffame;
-    DROP TABLE IF EXISTS fieldingpost;
-    DROP TABLE IF EXISTS fieldingofsplit;
-    DROP TABLE IF EXISTS fieldingof;
-    DROP TABLE IF EXISTS fielding;
-    DROP TABLE IF EXISTS collegeplaying;
-    DROP TABLE IF EXISTS schools;
-    DROP TABLE IF EXISTS battingpost;
-    DROP TABLE IF EXISTS batting;
-    DROP TABLE IF EXISTS awardsshareplayers;
-    DROP TABLE IF EXISTS awardssharemanagers;
-    DROP TABLE IF EXISTS awardsplayers;
-    DROP TABLE IF EXISTS awardsmanagers;
-    DROP TABLE IF EXISTS appearances;
-    DROP TABLE IF EXISTS allstarfull;
-    DROP TABLE IF EXISTS people;
-    DROP TABLE IF EXISTS teamshalf;
-    DROP TABLE IF EXISTS teams;
-    DROP TABLE IF EXISTS teamsfranchises;
-    DROP TABLE IF EXISTS divisions;
-    DROP TABLE IF EXISTS leagues;
+<pre>
+DROP TABLE IF EXISTS seriespost;
+DROP TABLE IF EXISTS salaries;
+DROP TABLE IF EXISTS pitchingpost;
+DROP TABLE IF EXISTS pitching;
+DROP TABLE IF EXISTS managershalf;
+DROP TABLE IF EXISTS managers;
+DROP TABLE IF EXISTS homegames;
+DROP TABLE IF EXISTS parks;
+DROP TABLE IF EXISTS halloffame;
+DROP TABLE IF EXISTS fieldingpost;
+DROP TABLE IF EXISTS fieldingofsplit;
+DROP TABLE IF EXISTS fieldingof;
+DROP TABLE IF EXISTS fielding;
+DROP TABLE IF EXISTS collegeplaying;
+DROP TABLE IF EXISTS schools;
+DROP TABLE IF EXISTS battingpost;
+DROP TABLE IF EXISTS batting;
+DROP TABLE IF EXISTS awardsshareplayers;
+DROP TABLE IF EXISTS awardssharemanagers;
+DROP TABLE IF EXISTS awardsplayers;
+DROP TABLE IF EXISTS awardsmanagers;
+DROP TABLE IF EXISTS appearances;
+DROP TABLE IF EXISTS allstarfull;
+DROP TABLE IF EXISTS people;
+DROP TABLE IF EXISTS teamshalf;
+DROP TABLE IF EXISTS teams;
+DROP TABLE IF EXISTS teamsfranchises;
+DROP TABLE IF EXISTS divisions;
+DROP TABLE IF EXISTS leagues;
+</pre>
 
 The file should be ready to use as an import file.
 
