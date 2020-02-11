@@ -14,6 +14,7 @@ If you just want to create the MySQL database, download *lahman-mysql-dump.sql* 
 1. We added leagues and divisions tables to stored data related to the CSV data's pseudo-foreign keys: `lgID` and `divID`.
 1. We added autoincrementing `ID` fields to all tables that had obvious single-field primary key.
 1. We added foreign keys to tables references the added `ID` primary keys. All of these foreign keys contain an underscore: `div_id`, `team_id`, `team_IDwinner`, `team_IDloser`, `lg_IDwinner`, `lg_IDloser`, `park_ID`.
+    1. **We did not remove** the existing ids, so queries relying on those should continue to work.
 1. We change the field name `rank` to `teamRank`, as 'rank' is a reserved word in MySQL 8+.
 1. We removed all periods from field names. This affects fields in *Parks.csv* and *HomeGames.csv*.
 1. We assumed 'NA' should be treated as `NULL` for all fields except `lgID`, where it relates to 'National Association'
@@ -108,7 +109,7 @@ Also included is *lahmansbaseballdb.sqlite* - a sqlite3 version of the database,
     ORDER BY b.HR DESC
     LIMIT 5;
 
-Without the new primary key - foreign key relationship, that query would have been:
+Without the new primary key - foreign key relationship, that query would be:*
 
     SELECT p.nameFirst, p.nameLast, b.HR, t.name AS team, b.yearID
     FROM batting b
@@ -117,6 +118,8 @@ Without the new primary key - foreign key relationship, that query would have be
     WHERE b.YearID = 1977
     ORDER BY b.HR DESC
     LIMIT 5;
+
+* This query will still work.
 
 ### Ten Heaviest Rookies
     SELECT nameFirst, nameLast, weight, year(debut)
