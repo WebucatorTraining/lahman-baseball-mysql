@@ -26,10 +26,10 @@ If you just want to create the MySQL database, download *lahman-mysql-dump.sql* 
 1. PlayerID 'thompan01' appears in *fieldingOF.csv*, but not in *People.csv*. His record does not get included in the `fieldingof` table of the MySQL database.
 
 ## Data Changed/Fixed
-1. MLN - In *AllstarFull.csv*, teamID "MLN" exists. That should be "ML1". In *Teams.csv*, "MLN" is value for `teamIDBR`, `teamIDlahman45`, and `teamIDretro`, but not for `teamID`. We changed this value to "ML1" in the `allstarfull` table of the MySQL database.
-1. WSN - In *AllstarFull.csv*, teamID "WSN" exists. That should be "WAS". In *Teams.csv*, "WSN" is value for `teamIDlahman45` and `teamIDretro`, but not for `teamID`. We changed this value to "WAS" in the `allstarfull` table of the MySQL database.
-1. MIL 1970 - 1997. In *AllstarFull.csv*, these records use "MIL" as the TeamID. They should be "ML4" as that is the Brewers' TeamID for those years. We changed this.
-1. LAA 1997 - 2004. In *AllstarFull.csv*, these records use "LAA" as the TeamID. They should be "ANA" as that is the Angels' TeamID for those years. We changed this.
+1. MLN - In *AllstarFull.csv*, `teamID` "MLN" exists. That should be "ML1". In *Teams.csv*, "MLN" is value for `teamIDBR`, `teamIDlahman45`, and `teamIDretro`, but not for `teamID`. We changed this value to "ML1" in the `allstarfull` table of the MySQL database.
+1. WSN - In *AllstarFull.csv*, `teamID` "WSN" exists. That should be "WAS". In *Teams.csv*, "WSN" is value for `teamIDlahman45` and `teamIDretro`, but not for `teamID`. We changed this value to "WAS" in the `allstarfull` table of the MySQL database.
+1. MIL 1970 - 1997. In *AllstarFull.csv*, these records use "MIL" as the `teamID`. They should be "ML4" as that is the Brewers' `teamID` for those years. We changed this.
+1. LAA 1997 - 2004. In *AllstarFull.csv*, these records use "LAA" as the `teamID`. They should be "ANA" as that is the Angels' `teamID` for those years. We changed this.
                     
 ## Python Script
 1. This is only relevant if you're going to try to recreate the MySQL script. If you do that and have suggestions, please create an issue.
