@@ -177,5 +177,5 @@ Because of this, we have to calculate the ERA ourselves, like this:
     mcdowja01   Jack    McDowell    1993    3.3662
 
 ## The Model
-<img src="blob/master/lahman-model.png?raw=true" alt="Lahman Model" height="33%" width="33%">
-<a href="blob/master/lahman-model.png">Full Size Model</a>
+<img src="https://github.com/WebucatorTraining/lahman-baseball-mysql/blob/master/lahman-model.png?raw=true" alt="Lahman Model" height="33%" width="33%">
+<a href="https://github.com/WebucatorTraining/lahman-baseball-mysql/blob/master/lahman-model.png">Full Size Model</a>
