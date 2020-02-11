@@ -9,7 +9,6 @@ If you just want to create the MySQL database, download *lahman-mysql-dump.sql* 
 1. Pick any **Default Target Schema**. It will be ignored, as the file creates a new one.
 1. Click **Start Import** button.
 
-
 ## General Notes
 1. We added leagues and divisions tables to stored data related to the CSV data's pseudo-foreign keys: `lgID` and `divID`.
 1. We added autoincrementing `ID` fields to all tables that had obvious single-field primary key.
@@ -176,3 +175,7 @@ Because of this, we have to calculate the ERA ourselves, like this:
     clemero02   Roger   Clemens     2001    3.5129
     colonba01   Bartolo Colon       2005    3.4760
     mcdowja01   Jack    McDowell    1993    3.3662
+
+## The Model
+<img src="blob/master/lahman-model.png" alt="Lahman Model" height="33%" width="33%">
+[Full Size Model](blob/master/lahman-model.png)
