@@ -10,14 +10,16 @@ If you just want to create the MySQL database, download *lahman-mysql-dump.sql* 
 1. Click **Start Import** button.
 
 ## General Notes
-1. We added leagues and divisions tables to stored data related to the CSV data's pseudo-foreign keys: `lgID` and `divID`.
-1. We added autoincrementing `ID` fields to all tables that had obvious single-field primary key.
-1. We added foreign keys to tables references the added `ID` primary keys. All of these foreign keys contain an underscore: `div_id`, `team_id`, `team_IDwinner`, `team_IDloser`, `lg_IDwinner`, `lg_IDloser`, `park_ID`.
+1. Added leagues and divisions tables to stored data related to the CSV data's pseudo-foreign keys: `lgID` and `divID`.
+1. Added autoincrementing `ID` fields to all tables that had obvious single-field primary key.
+1. Added foreign keys to tables references the added `ID` primary keys. All of these foreign keys contain an underscore: `div_id`, `team_id`, `team_IDwinner`, `team_IDloser`, `lg_IDwinner`, `lg_IDloser`, `park_ID`.
     1. **We did not remove** the existing ids, so queries relying on those should continue to work.
-1. We change the field name `rank` to `teamRank`, as 'rank' is a reserved word in MySQL 8+.
-1. We removed all periods from field names. This affects fields in *Parks.csv* and *HomeGames.csv*.
-1. We assumed 'NA' should be treated as `NULL` for all fields except `lgID`, where it relates to 'National Association'
-1. We converted the `inf` integer value to `NULL` for lack of a better idea.
+1. Added date fields for `people.birth_date`, `people.debut_date`, `people.lastgame_date`, `people.death_date`, `homegames.spanfirst_date`, and `homegames.spanlast_date`.
+    1. These make it easier to run date comparison queries. [An example](#youngest-debuts-this-century)
+1. Changed the field name `rank` to `teamRank`, as 'rank' is a reserved word in MySQL 8+.
+1. Removed all periods from field names. This affects fields in *Parks.csv* and *HomeGames.csv*.
+1. Assumed 'NA' should be treated as `NULL` for all fields except `lgID`, where it relates to 'National Association'
+1. Converted the `inf` integer value to `NULL` for lack of a better idea.
 
 ## Data Lost
 1. In `allstarfull`, the row with this data: `['bailean01', None, None, None, 'OAK', 1512, 'AL', 0, None]` has no `yearID`. Because of this, we made `yearID` optional in the `allstarfull` table.
@@ -175,6 +177,22 @@ Because of this, we have to calculate the ERA ourselves, like this:
     clemero02   Roger   Clemens     2001    3.5129
     colonba01   Bartolo Colon       2005    3.4760
     mcdowja01   Jack    McDowell    1993    3.3662
+
+### Youngest Debuts This Century
+    SELECT nameFirst, nameLast, birth_date, debut_date, 
+    timestampdiff(day, birth_date, debut_date)/365.25 AS debut_age
+    FROM people
+    WHERE debut_date IS NOT NULL AND birth_date IS NOT NULL
+        AND debut_date > '2000-01-01'
+    ORDER BY debut_age
+    LIMIT 5;
+
+#### The Results
+    Elvis       Luciano     2000-02-15    2019-03-31    19.1211
+    Felix       Hernandez   1986-04-08    2005-08-04    19.3238
+    Jurickson   Profar      1993-02-20    2012-09-02    19.5318
+    Bryce       Harper      1992-10-16    2012-04-28    19.5318
+    Juan        Soto        1998-10-25    2018-05-20    19.5674
 
 ## The Model
 <img src="https://github.com/WebucatorTraining/lahman-baseball-mysql/blob/master/lahman-model-thumbnail.png?raw=true" alt="Lahman Model">

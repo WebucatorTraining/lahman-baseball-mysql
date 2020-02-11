@@ -51,6 +51,7 @@ import pandas as pd
 from subprocess import Popen, PIPE
 import mysql.connector
 import time
+import datetime
 
 # Change to your login info
 user = 'root'
@@ -142,6 +143,16 @@ def get_columns(csv_cols, table):
             cols.append('park_ID')
         elif col == 'divID':
             cols.append('div_ID')
+
+    if table == 'people':
+        cols.append('birth_date')
+        cols.append('debut_date')
+        cols.append('finalgame_date')
+        cols.append('death_date')
+
+    if table == 'homegames':
+        cols.append('spanfirst_date')
+        cols.append('spanlast_date')
 
     return cols
 
@@ -237,6 +248,56 @@ def get_values(orig_values, csv_cols, table, connection):
             except:
                 print(query, vals)
                 raise
+
+    # Add Date Columns to people
+    if table == 'people':
+        try:
+            birth_year = int(orig_values[list(csv_cols).index('birthYear')])
+            birth_month = int(orig_values[list(csv_cols).index('birthMonth')])
+            birth_day = int(orig_values[list(csv_cols).index('birthDay')])
+            birth_date = datetime.date(birth_year, birth_month, birth_day)
+            values.append(birth_date)
+        except ValueError:
+            values.append(None)
+
+        try:
+            debut = orig_values[list(csv_cols).index('debut')]
+            debut_date = datetime.datetime.strptime(debut, '%Y-%m-%d').date()
+            values.append(debut_date)
+        except ValueError:
+            values.append(None)
+
+        try:
+            finalgame = orig_values[list(csv_cols).index('finalGame')]
+            finalgame_date = datetime.datetime.strptime(finalgame, '%Y-%m-%d').date()
+            values.append(finalgame_date)
+        except ValueError:
+            values.append(None)
+
+        try:
+            death_year = int(orig_values[list(csv_cols).index('deathYear')])
+            death_month = int(orig_values[list(csv_cols).index('deathMonth')])
+            death_day = int(orig_values[list(csv_cols).index('deathDay')])
+            death_date = datetime.date(death_year, death_month, death_day)
+            values.append(death_date)
+        except ValueError:
+            values.append(None)
+
+    # Add Date Columns to homegames
+    if table == 'homegames':
+        try:
+            span_first = orig_values[list(csv_cols).index('span.first')]
+            spanfirst_date = datetime.datetime.strptime(span_first, '%Y-%m-%d').date()
+            values.append(spanfirst_date)
+        except ValueError:
+            values.append(None)
+
+        try:
+            span_last = orig_values[list(csv_cols).index('span.last')]
+            spanlast_date = datetime.datetime.strptime(span_last, '%Y-%m-%d').date()
+            values.append(spanlast_date)
+        except TypeError:
+            values.append(None)
 
     return values
 

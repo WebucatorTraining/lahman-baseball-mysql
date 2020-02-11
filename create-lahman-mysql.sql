@@ -209,7 +209,11 @@ CREATE TABLE people (
   debut varchar(255) DEFAULT NULL,
   finalGame varchar(255) DEFAULT NULL,
   retroID varchar(255) DEFAULT NULL,
-  bbrefID varchar(255) DEFAULT NULL,  
+  bbrefID varchar(255) DEFAULT NULL,
+  birth_date date DEFAULT NULL,
+  debut_date date DEFAULT NULL,
+  finalgame_date date DEFAULT NULL,
+  death_date date DEFAULT NULL,
   PRIMARY KEY (playerID)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -556,6 +560,8 @@ CREATE TABLE homegames (
   games int(11) DEFAULT NULL,
   openings int(11) DEFAULT NULL,
   attendance int(11) DEFAULT NULL,
+  spanfirst_date date DEFAULT NULL,
+  spanlast_date date DEFAULT NULL,
   PRIMARY KEY (ID),
   FOREIGN KEY (leaguekey) REFERENCES leagues(lgID), /* Not normalized, but keeping to maintain consistency with original */
   FOREIGN KEY (team_ID) REFERENCES teams(ID),
