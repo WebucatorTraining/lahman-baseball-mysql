@@ -60,7 +60,7 @@ If you just want to create the MySQL database, download *lahman-mysql-dump.sql* 
 1. Click **Start Export**. This will create a .sql file.
 1. Copy all the `DROP TABLE` statements below and paste them at the top of the dump file after the `USE lahmansbaseballdb;` line.
 
-    /* DROP TABLES */
+
     DROP TABLE IF EXISTS seriespost;
     DROP TABLE IF EXISTS salaries;
     DROP TABLE IF EXISTS pitchingpost;
@@ -90,7 +90,7 @@ If you just want to create the MySQL database, download *lahman-mysql-dump.sql* 
     DROP TABLE IF EXISTS teamsfranchises;
     DROP TABLE IF EXISTS divisions;
     DROP TABLE IF EXISTS leagues;
-    
+
 The file should be ready to use as an import file.
 
 ## sqlite3 version
