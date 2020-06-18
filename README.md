@@ -1,7 +1,7 @@
 # lahmans-baseball-mysql
 Script for creating MySQL database containing Lahmans Baseball Data.
 
-This data is used in our soon-to-be-released Python book.
+This data is used in our [Actionable Python book](https://www.amazon.com/Python-3-8-Nat-Dunn/dp/1951959027).
 
 If you just want to create the MySQL database, download *lahman-mysql-dump.sql* and import it into MySQL using MySQL Workbench:
 1. **Server > Data Import**
